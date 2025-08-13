@@ -1,23 +1,64 @@
-# Redirect /app (no trailing slash) → /app/
+# === Build settings ===
+[build]
+  # مجلد النشر في نتلايف
+  publish = "public"
+  # موقعك ثابت، لا حاجة لأمر بناء
+  command = ""
+
+# === Redirects ===
+
+# (اختياري) فرض HTTPS على الدومين
+[[redirects]]
+  from = "http://mrwiat.com/*"
+  to   = "https://mrwiat.com/:splat"
+  status = 301
+  force  = true
+
+# أهم سطر: قدّم /app مباشرة بدون إضافة / في النهاية (يمنع حلقة إعادة التوجيه)
 [[redirects]]
   from = "/app"
-  to = "/app/"
-  status = 301
-  force = true
+  to   = "/app/index.html"
+  status = 200
 
-# If later you add a SPA inside /app, uncomment:
+# (اختياري مستقبلًا) لو صار عندك SPA داخل /app، فعّل هذا:
 # [[redirects]]
 #   from = "/app/*"
-#   to = "/app/index.html"
+#   to   = "/app/index.html"
+#   status = 200
+#   # بدون force حتى تظل الملفات الحقيقية (CSS/JS/صور) تُخدم مباشرة
+
+# (لا تفعل شيئًا للروت إن لم تكن SPA)
+# [[redirects]]
+#   from = "/*"
+#   to   = "/index.html"
 #   status = 200
 
-# Cache: keep HTML fresh, cache assets hard
+
+# === Headers ===
+
+# حدّث HTML دائمًا من السيرفر
 [[headers]]
   for = "/app/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# كاش قوي للملفات الثابتة المشتركة
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# كاش قوي لملفات /app إن وُجدت
+[[headers]]
+  for = "/app/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# هيدرز أمان أساسية
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), clipboard-read=(self), clipboard-write=(self), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(self), publickey-credentials-get=(self), sync-xhr=(), usb=(), vr=(), screen-wake-lock=()"
