@@ -1,0 +1,23 @@
+# Redirect /app (no trailing slash) → /app/
+[[redirects]]
+  from = "/app"
+  to = "/app/"
+  status = 301
+  force = true
+
+# If later you add a SPA inside /app, uncomment:
+# [[redirects]]
+#   from = "/app/*"
+#   to = "/app/index.html"
+#   status = 200
+
+# Cache: keep HTML fresh, cache assets hard
+[[headers]]
+  for = "/app/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
