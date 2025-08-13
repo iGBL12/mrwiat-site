@@ -52,19 +52,15 @@
           <h2 style="margin:0 0 8px">لأجهزة iOS (iPhone / iPad)</h2>
           <p style="margin:0 0 8px">اضغط على زر متجر آبل للانتقال مباشرة إلى صفحة التطبيق.</p>
 
-          <!-- Clickable image badge (replace src with your hosted badge if available) -->
           <div class="badge" style="margin-top:6px">
-            $1 target="_top" data-ios-link="true"$2
-              <!-- Minimal inline icon (generic) -->
+            <a id="ios-badge" href="https://apps.apple.com/us/app/mrwiat-%D9%85%D8%B1%D9%88%D9%8A%D8%A7%D8%AA/id6747725202">
               <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43a5.6 5.6 0 0 1-1.23 3.83 4.32 4.32 0 0 1-3.29 1.62 5.7 5.7 0 0 1 1.24-3.93 4.64 4.64 0 0 1 3.28-1.52zM21.38 17.39c-.51 1.17-1.12 2.26-1.84 3.27-.98 1.39-1.88 2.35-2.71 2.9-.83.55-1.73.84-2.71.86-.69.02-1.52-.2-2.5-.66-.98-.45-1.88-.67-2.71-.67-.86 0-1.78.22-2.77.67-.99.45-1.79.68-2.39.7-.96.04-1.88-.26-2.76-.9-.88-.64-1.78-1.63-2.71-2.97C.62 20.19 0 18.79 0 17.29c0-1.25.27-2.65.82-4.19.55-1.54 1.28-2.88 2.21-4.02.84-1.03 1.82-1.84 2.96-2.44 1.14-.6 2.34-.91 3.59-.93.71 0 1.64.23 2.78.7 1.13.47 1.86.7 2.18.7.24 0 1.04-.32 2.4-.96 1.29-.58 2.37-.82 3.24-.73 2.39.19 4.18 1.13 5.37 2.82-2.13 1.29-3.19 3.1-3.18 5.43.01 1.81.66 3.32 1.95 4.54-.18.5-.36.96-.54 1.38z"/></svg>
               <span>تحميل من App Store</span>
             </a>
           </div>
 
-          <!-- Secondary CTA button -->
-          $1 target="_top" data-ios-link="true"$2انتقال إلى App Store</a>
+          <a id="ios-cta" class="btn ios" href="https://apps.apple.com/us/app/mrwiat-%D9%85%D8%B1%D9%88%D9%8A%D8%A7%D8%AA/id6747725202">انتقال إلى App Store</a>
         </div>
-
         <!-- Android -->
         <div class="card">
           <h2 style="margin:0 0 8px">لأجهزة Android</h2>
@@ -89,7 +85,34 @@
   </div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script>(function(){var iosHttp='https://apps.apple.com/us/app/mrwiat-%D9%85%D8%B1%D9%88%D9%8A%D8%A7%D8%AA/id6747725202';var iosDeep='itms-apps://itunes.apple.com/app/id6747725202';function isInApp(){var ua=navigator.userAgent||'';return /(FBAN|FBAV|Instagram|Line|Twitter|TikTok|Tiktok|VKClient|Snapchat|Pinterest)/i.test(ua);}document.querySelectorAll('a[data-ios-link]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();try{window.location.href=iosDeep;setTimeout(function(){window.location.href=iosHttp;},700);}catch(_){window.location.href=iosHttp;}});});if(isInApp()){var hint=document.createElement('div');hint.innerHTML='يبدو أنك تفتح الصفحة من داخل تطبيق (مثل TikTok). اضغط <b>⋯</b> ثم اختر <b>Open in Safari</b> ثم اضغط زر App Store.';hint.style.cssText='background:#fde68a;color:#1f2937;padding:10px 12px;border-radius:10px;margin:10px 0;font-size:14px';var wrap=document.querySelector('.wrap');if(wrap) wrap.insertBefore(hint,wrap.firstChild);}})();</script>
+  <script>(function(){
+  var iosHttp='https://apps.apple.com/us/app/mrwiat-%D9%85%D8%B1%D9%88%D9%8A%D8%A7%D8%AA/id6747725202';
+  var iosDeep='itms-apps://itunes.apple.com/app/id6747725202';
+
+  function openIOS(e){
+    e.preventDefault();
+    try {
+      window.location.href = iosDeep;
+      setTimeout(function(){ window.location.href = iosHttp; }, 700);
+    } catch (err) {
+      window.location.href = iosHttp;
+    }
+  }
+
+  var b=document.getElementById('ios-badge');
+  var c=document.getElementById('ios-cta');
+  if(b) b.addEventListener('click', openIOS);
+  if(c) c.addEventListener('click', openIOS);
+
+  var ua=navigator.userAgent||'';
+  if (/(FBAN|FBAV|Instagram|Line|Twitter|TikTok|Tiktok|VKClient|Snapchat|Pinterest)/i.test(ua)){
+    var hint=document.createElement('div');
+    hint.innerHTML='قد تحتاج لفتح الصفحة في Safari: اضغط ⋯ ثم <b>Open in Safari</b> ثم اضغط زر App Store.';
+    hint.style.cssText='background:#fde68a;color:#1f2937;padding:10px 12px;border-radius:10px;margin:10px 0;font-size:14px';
+    var wrap=document.querySelector('.wrap'); if(wrap) wrap.insertBefore(hint, wrap.firstChild);
+  }
+})();</script>
 </body>
 </html>
+
 
