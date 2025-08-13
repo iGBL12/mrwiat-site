@@ -1,54 +1,45 @@
 # === Build settings ===
 [build]
-  # مجلد النشر في نتلايف
-  publish = "public"
-  # موقعك ثابت، لا حاجة لأمر بناء
-  command = ""
+  # انشر من جذر المستودع (لأن عندك index.html و /app في الجذر)
+  publish = "."
+  # الموقع ثابت — لا تبني أي شيء
+  command = "echo 'skip build'"
 
 # === Redirects ===
 
-# (اختياري) فرض HTTPS على الدومين
+# (اختياري) تحويل http إلى https على الدومين
 [[redirects]]
   from = "http://mrwiat.com/*"
   to   = "https://mrwiat.com/:splat"
   status = 301
   force  = true
 
-# أهم سطر: قدّم /app مباشرة بدون إضافة / في النهاية (يمنع حلقة إعادة التوجيه)
+# اجعل /app تعمل مباشرة بدون إضافة / في النهاية (منع حلقة الـredirect)
 [[redirects]]
   from = "/app"
   to   = "/app/index.html"
   status = 200
 
-# (اختياري مستقبلًا) لو صار عندك SPA داخل /app، فعّل هذا:
+# لو صار لاحقاً عندك SPA داخل /app فعّل هذا:
 # [[redirects]]
 #   from = "/app/*"
 #   to   = "/app/index.html"
 #   status = 200
-#   # بدون force حتى تظل الملفات الحقيقية (CSS/JS/صور) تُخدم مباشرة
-
-# (لا تفعل شيئًا للروت إن لم تكن SPA)
-# [[redirects]]
-#   from = "/*"
-#   to   = "/index.html"
-#   status = 200
-
 
 # === Headers ===
 
-# حدّث HTML دائمًا من السيرفر
+# لا نكّش HTML، خليه يتحدّث دائماً
 [[headers]]
   for = "/app/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# كاش قوي للملفات الثابتة المشتركة
+# كاش قوي للأصول الثابتة إن وجدت
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# كاش قوي لملفات /app إن وُجدت
 [[headers]]
   for = "/app/assets/*"
   [headers.values]
